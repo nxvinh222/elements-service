@@ -5,6 +5,8 @@ import (
 	"elements-service/component"
 	"elements-service/component/uploadprovider"
 	"elements-service/middleware"
+	"elements-service/modules/recipe/recipemodel"
+	"elements-service/modules/recipe/recipetransport/ginrecipe"
 	"elements-service/modules/restaurant/restauranttransport/ginrestaurant"
 	"elements-service/modules/restaurantlike/transport/ginrestaurantlike"
 	"elements-service/modules/upload/uploadtransport/gin_upload"
@@ -84,6 +86,17 @@ func runService(appCtx component.AppContext) error {
 		restaurants.GET("/:id/liked-users", ginrestaurantlike.ListUser(appCtx))
 	}
 
+	recipes := v1.Group("/recipes")
+	{
+		recipes.POST("", ginrecipe.CreateRecipe(appCtx))
+		//recipes.GET("", ginrestaurant.ListRestaurant(appCtx))
+		//recipes.GET("/:id", ginrestaurant.GetRestaurant(appCtx))
+		//recipes.PATCH("/:id", ginrestaurant.UpdateRestaurant(appCtx))
+		//recipes.DELETE("/:id", ginrestaurant.DeleteRestaurant(appCtx))
+		//
+		//recipes.GET("/:id/liked-users", ginrestaurantlike.ListUser(appCtx))
+	}
+
 	v1.GET("/encode-uid", func(c *gin.Context) {
 		type reqData struct {
 			DbType int `form:"type"`
@@ -102,7 +115,18 @@ func runService(appCtx component.AppContext) error {
 }
 
 func migrateDB(db *gorm.DB) error {
+	db.Migrator().DropTable(usermodel.User{})
+	db.Migrator().DropTable(recipemodel.Recipe{})
+
 	err := db.AutoMigrate(usermodel.User{})
+	if err != nil {
+		return err
+	}
+	err = db.AutoMigrate(recipemodel.Recipe{})
+	if err != nil {
+		return err
+	}
+	err = db.AutoMigrate(recipemodel.Element{})
 	if err != nil {
 		return err
 	}
