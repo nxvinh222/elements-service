@@ -3,13 +3,12 @@ package recipestorage
 import (
 	"context"
 	"elements-service/common"
-	"elements-service/modules/element/elementmodel"
 	"elements-service/modules/recipe/recipemodel"
 )
 
 func (s *sqlStore) ListDataByCondition(ctx context.Context,
 	conditions map[string]interface{}, // filter from backend?
-	filter *elementmodel.Filter, // filter from frontend
+	filter *recipemodel.Filter, // filter from frontend
 	paging *common.Paging,
 	moreKeys ...string,
 ) ([]recipemodel.Recipe, error) {
