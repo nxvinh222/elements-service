@@ -8,13 +8,14 @@ import (
 	"elements-service/modules/element/elementstorage"
 	"github.com/gin-gonic/gin"
 	"net/http"
+	"strconv"
 )
 
 func CreateElement(ctx component.AppContext) gin.HandlerFunc {
 	return func(context *gin.Context) {
 		var data elementmodel.ElementCreateList
 
-		uid, err := common.FromBase58(context.Param(("id")))
+		id, err := strconv.Atoi(context.Param("id"))
 
 		if err != nil {
 			panic(common.ErrInvalidRequest(err))
@@ -27,7 +28,7 @@ func CreateElement(ctx component.AppContext) gin.HandlerFunc {
 
 		store := elementstorage.NewSQLStore(ctx.GetMainDBConnection())
 		biz := elementbiz.NewCreateElementBiz(store)
-		err = biz.CreateElement(context.Request.Context(), int(uid.GetLocalID()), &data)
+		err = biz.CreateElement(context.Request.Context(), id, &data)
 
 		if err != nil {
 			panic(err)

@@ -29,15 +29,6 @@ func (biz *listElementBiz) ListElement(
 	filter *elementmodel.Filter,
 	paging *common.Paging,
 ) ([]elementmodel.Element, error) {
-	if filter.FatherId != "" {
-		fatherUid, err := common.FromBase58(filter.FatherId)
-		if err != nil {
-			filter.FatherId = ""
-		} else {
-			filter.FatherIdDecoded = int(fatherUid.GetLocalID())
-		}
-	}
-
 	result, err := biz.store.ListDataByCondition(ctx, map[string]interface{}{"recipe_id": recipeId}, filter, paging)
 
 	if err != nil {

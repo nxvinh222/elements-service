@@ -32,6 +32,10 @@ func (RecipeCreate) TableName() string {
 	return Recipe{}.TableName()
 }
 
+func (r *Recipe) Mask(isAdminOrOwner bool) {
+	r.GenUID(common.DbTypeRecipe)
+}
+
 func (r *RecipeCreate) Mask(isAdminOrOwner bool) {
-	r.GenUID(common.DbTypeRestaurant)
+	r.GenUID(common.DbTypeRecipe)
 }

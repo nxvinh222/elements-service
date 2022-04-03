@@ -8,14 +8,14 @@ import (
 	"elements-service/modules/element/elementstorage"
 	"github.com/gin-gonic/gin"
 	"net/http"
+	"strconv"
 )
 
 func ListElement(appCtx component.AppContext) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		var filter elementmodel.Filter
 
-		idParam := c.Param("id")
-		recipeUid, err := common.FromBase58(idParam)
+		id, err := strconv.Atoi(c.Param("id"))
 
 		if err != nil {
 			panic(common.ErrInvalidRequest(err))
@@ -45,20 +45,13 @@ func ListElement(appCtx component.AppContext) gin.HandlerFunc {
 
 		store := elementstorage.NewSQLStore(appCtx.GetMainDBConnection())
 		biz := elementbiz.NewListElementBiz(store)
-		result, err := biz.ListElement(c.Request.Context(), int(recipeUid.GetLocalID()), &filter, &paging)
+		result, err := biz.ListElement(c.Request.Context(), id, &filter, &paging)
 		if err != nil {
 			c.JSON(http.StatusUnauthorized, gin.H{
 				"error": err.Error(),
 			})
 
 			return
-		}
-
-		for i := range result {
-			result[i].Mask(false)
-			result[i].ElementUid = filter.FatherId
-			result[i].ElementId = nil
-			result[i].RecipeUid = idParam
 		}
 
 		c.JSON(http.StatusOK, common.NewSuccessResponse(result, paging, filter))

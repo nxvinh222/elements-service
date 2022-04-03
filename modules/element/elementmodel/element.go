@@ -6,17 +6,14 @@ const EntityName = "Element"
 
 type Element struct {
 	common.SQLModel
-	RecipeId  int `json:"-" gorm:"column:recipe_id;"`
-	RecipeUid string `json:"recipe_id" gorm:"-"`
+	RecipeId  int    `json:"recipe_id" gorm:"column:recipe_id;"`
 	// id of father element id
-	ElementId    *int      `json:"-" gorm:"column:element_id"`
-	ElementUid   string    `json:"element_id" gorm:"-"`
-
+	ElementId    *int      `json:"element_id" gorm:"column:element_id"`
 	Name         string    `json:"name"`
 	Selector     string    `json:"selector"`
 	Type         string    `json:"type"`
 	Multiple     bool      `json:"multiple"`
-	ChildElement []Element `json:"child_element"`
+	ChildElement []Element `json:"child_element" gorm:"preload:true"`
 }
 
 func (Element) TableName() string {
@@ -30,8 +27,7 @@ type ElementCreateList struct {
 type ElementCreate struct {
 	common.SQLModel
 	RecipeId     int    `json:"-"`
-	ElementIdStr string `json:"element_id" gorm:"-"`
-	ElementId    *int   `gorm:"column:element_id"`
+	ElementId    *int   `json:"element_id" gorm:"column:element_id"`
 	Name         string `json:"name"`
 	Selector     string `json:"selector"`
 	Type         string `json:"type"`

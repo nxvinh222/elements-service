@@ -2,7 +2,6 @@ package elementbiz
 
 import (
 	"context"
-	"elements-service/common"
 	"elements-service/modules/element/elementmodel"
 	"fmt"
 	"strings"
@@ -27,17 +26,10 @@ func NewCreateElementBiz(store CreateElementStore) *createElementBiz {
 
 func (biz *createElementBiz) CreateElement(ctx context.Context, recipeId int, data *elementmodel.ElementCreateList) error {
 	for i := range data.Elements{
-		elementId := 0
-		uid, err := common.FromBase58(data.Elements[i].ElementIdStr)
-		if err == nil {
-			elementId = int(uid.GetLocalID())
-			data.Elements[i].ElementId = &elementId
-		}
+		fatherElement, err := biz.store.FindElementByCondition(ctx, map[string]interface{}{"id": data.Elements[i].ElementId})
 
-		fatherElement, err := biz.store.FindElementByCondition(ctx, map[string]interface{}{"id": elementId})
-
-		if err != nil {
-			data.Elements[i].ElementId = nil
+		if data.Elements[i].ElementId != nil && err != nil {
+			return err
 		}
 
 		if fatherElement != nil && fatherElement.Status == 0 {

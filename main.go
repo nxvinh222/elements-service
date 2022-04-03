@@ -91,6 +91,7 @@ func runService(appCtx component.AppContext) error {
 	recipes := v1.Group("/recipes")
 	{
 		recipes.POST("", ginrecipe.CreateRecipe(appCtx))
+		recipes.GET("/:id", ginrecipe.GetRecipe(appCtx))
 		recipes.POST("/:id/elements", ginelement.CreateElement(appCtx))
 		recipes.GET("/:id/elements", ginelement.ListElement(appCtx))
 		//recipes.GET("", ginrestaurant.ListRestaurant(appCtx))

@@ -1,9 +1,10 @@
-package elementstorage
+package recipestorage
 
 import (
 	"context"
 	"elements-service/common"
 	"elements-service/modules/element/elementmodel"
+	"elements-service/modules/recipe/recipemodel"
 )
 
 func (s *sqlStore) ListDataByCondition(ctx context.Context,
@@ -11,20 +12,12 @@ func (s *sqlStore) ListDataByCondition(ctx context.Context,
 	filter *elementmodel.Filter, // filter from frontend
 	paging *common.Paging,
 	moreKeys ...string,
-) ([]elementmodel.Element, error) {
-	var result []elementmodel.Element
+) ([]recipemodel.Recipe, error) {
+	var result []recipemodel.Recipe
 
 	db := s.db
 
-	db = db.Table(elementmodel.Element{}.TableName()).Where(conditions).Where("status in (1)")
-
-	if f := filter; f != nil {
-		if f.FatherId > 0 {
-			db = db.Where("element_id = ?", f.FatherId)
-		} else {
-			db = db.Where("element_id IS NULL")
-		}
-	}
+	db = db.Table(recipemodel.Recipe{}.TableName()).Where(conditions).Where("status in (1)")
 
 	err := db.Count(&paging.Total).Error
 	if err != nil {
