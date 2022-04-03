@@ -6,6 +6,7 @@ const (
 	DbTypeCategory   = 3
 	DbTypeUser       = 4
 	DbTypeRecipe = 5
+	DbTypeElement = 6
 )
 
 const CurrentUser = "user"

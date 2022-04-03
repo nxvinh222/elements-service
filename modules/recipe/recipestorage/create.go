@@ -16,5 +16,3 @@ func (s *sqlStore) CreateRecipe(ctx context.Context, data *recipemodel.RecipeCre
 
 	return nil
 }
-
-

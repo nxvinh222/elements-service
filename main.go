@@ -5,6 +5,8 @@ import (
 	"elements-service/component"
 	"elements-service/component/uploadprovider"
 	"elements-service/middleware"
+	"elements-service/modules/element/elementmodel"
+	"elements-service/modules/element/elementtransport/ginelement"
 	"elements-service/modules/recipe/recipemodel"
 	"elements-service/modules/recipe/recipetransport/ginrecipe"
 	"elements-service/modules/restaurant/restauranttransport/ginrestaurant"
@@ -89,6 +91,7 @@ func runService(appCtx component.AppContext) error {
 	recipes := v1.Group("/recipes")
 	{
 		recipes.POST("", ginrecipe.CreateRecipe(appCtx))
+		recipes.POST("/:id/elements", ginelement.CreateElement(appCtx))
 		//recipes.GET("", ginrestaurant.ListRestaurant(appCtx))
 		//recipes.GET("/:id", ginrestaurant.GetRestaurant(appCtx))
 		//recipes.PATCH("/:id", ginrestaurant.UpdateRestaurant(appCtx))
@@ -115,8 +118,9 @@ func runService(appCtx component.AppContext) error {
 }
 
 func migrateDB(db *gorm.DB) error {
-	db.Migrator().DropTable(usermodel.User{})
-	db.Migrator().DropTable(recipemodel.Recipe{})
+	//db.Migrator().DropTable(usermodel.User{})
+	//db.Migrator().DropTable(recipemodel.Recipe{})
+	//db.Migrator().DropTable(recipemodel.Element{})
 
 	err := db.AutoMigrate(usermodel.User{})
 	if err != nil {
@@ -126,7 +130,7 @@ func migrateDB(db *gorm.DB) error {
 	if err != nil {
 		return err
 	}
-	err = db.AutoMigrate(recipemodel.Element{})
+	err = db.AutoMigrate(elementmodel.Element{})
 	if err != nil {
 		return err
 	}
