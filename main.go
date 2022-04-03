@@ -92,6 +92,7 @@ func runService(appCtx component.AppContext) error {
 	{
 		recipes.POST("", ginrecipe.CreateRecipe(appCtx))
 		recipes.POST("/:id/elements", ginelement.CreateElement(appCtx))
+		recipes.GET("/:id/elements", ginelement.ListElement(appCtx))
 		//recipes.GET("", ginrestaurant.ListRestaurant(appCtx))
 		//recipes.GET("/:id", ginrestaurant.GetRestaurant(appCtx))
 		//recipes.PATCH("/:id", ginrestaurant.UpdateRestaurant(appCtx))
@@ -120,7 +121,7 @@ func runService(appCtx component.AppContext) error {
 func migrateDB(db *gorm.DB) error {
 	//db.Migrator().DropTable(usermodel.User{})
 	//db.Migrator().DropTable(recipemodel.Recipe{})
-	//db.Migrator().DropTable(recipemodel.Element{})
+	//db.Migrator().DropTable(elementmodel.Element{})
 
 	err := db.AutoMigrate(usermodel.User{})
 	if err != nil {
