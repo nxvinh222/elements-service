@@ -6,9 +6,9 @@ const EntityName = "Element"
 
 type Element struct {
 	common.SQLModel
-	RecipeId  int    `json:"recipe_id" gorm:"column:recipe_id;"`
+	RecipeId  int    `json:"recipe_id" gorm:"column:recipe_id;constraint:OnUpdate:CASCADE,OnDelete:CASCADE;"`
 	// id of father element id
-	ElementId    *int      `json:"element_id" gorm:"column:element_id"`
+	ElementId    *int      `json:"element_id" gorm:"column:element_id;constraint:OnUpdate:CASCADE,OnDelete:CASCADE;"`
 	Name         string    `json:"name"`
 	Selector     string    `json:"selector"`
 	Type         string    `json:"type"`
