@@ -103,6 +103,11 @@ func runService(appCtx component.AppContext) error {
 		//recipes.GET("/:id/liked-users", ginrestaurantlike.ListUser(appCtx))
 	}
 
+	elements := v1.Group("/elements")
+	{
+		elements.DELETE("/:id", ginelement.DeleteElement(appCtx))
+	}
+
 	v1.GET("/encode-uid", func(c *gin.Context) {
 		type reqData struct {
 			DbType int `form:"type"`
