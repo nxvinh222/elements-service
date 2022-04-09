@@ -13,7 +13,7 @@ type Element struct {
 	Selector     string    `json:"selector"`
 	Type         string    `json:"type"`
 	Multiple     bool      `json:"multiple"`
-	ChildElement []Element `json:"child_element" gorm:"preload:true"`
+	ChildElement []Element `json:"child_elements" gorm:"preload:true"`
 }
 
 func (Element) TableName() string {
