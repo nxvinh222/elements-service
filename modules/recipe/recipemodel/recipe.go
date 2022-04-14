@@ -13,7 +13,7 @@ type Recipe struct {
 	Name string                     `json:"name"`
 	StartUrl string                 `json:"start_url"`
 	Note string                     `json:"note"`
-	Elements []elementmodel.Element `json:"elements"`
+	Elements []elementmodel.Element `json:"elements" gorm:"constraint:OnUpdate:CASCADE,OnDelete:CASCADE;"`
 }
 
 func (Recipe) TableName() string {
