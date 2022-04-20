@@ -105,6 +105,7 @@ func runService(appCtx component.AppContext) error {
 
 	elements := v1.Group("/elements")
 	{
+		elements.GET("/graph/:id", ginelement.GetElementGraph(appCtx))
 		elements.DELETE("/:id", ginelement.DeleteElement(appCtx))
 	}
 

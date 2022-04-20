@@ -38,6 +38,11 @@ func (ElementCreate) TableName() string {
 	return Element{}.TableName()
 }
 
+type ElementReturn struct {
+	Id int `json:"id"`
+	Name string `json:"name"`
+}
+
 func (r *Element) Mask(isAdminOrOwner bool) {
 	r.GenUID(common.DbTypeElement)
 }
