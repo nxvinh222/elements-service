@@ -34,7 +34,20 @@ type ElementCreate struct {
 	Multiple     bool   `json:"multiple"`
 }
 
+type ElementUpdate struct {
+	RecipeId     int    `json:"-"`
+	ElementId    *int   `json:"element_id" gorm:"column:element_id"`
+	Name         string `json:"name"`
+	Selector     string `json:"selector"`
+	Type         string `json:"type"`
+	Multiple     bool   `json:"multiple"`
+}
+
 func (ElementCreate) TableName() string {
+	return Element{}.TableName()
+}
+
+func (ElementUpdate) TableName() string {
 	return Element{}.TableName()
 }
 
