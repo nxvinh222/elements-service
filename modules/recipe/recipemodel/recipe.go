@@ -13,6 +13,8 @@ type Recipe struct {
 	Name string                     `json:"name"`
 	StartUrl string                 `json:"start_url"`
 	Note string                     `json:"note"`
+	IdentifierAttr string `json:"identifier_attr"`
+	IdentifierMap []Identifier `json:"identifier_map"`
 	Elements []elementmodel.Element `json:"elements" gorm:"constraint:OnUpdate:CASCADE,OnDelete:CASCADE;"`
 }
 

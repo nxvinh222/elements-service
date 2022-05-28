@@ -145,5 +145,9 @@ func migrateDB(db *gorm.DB) error {
 	if err != nil {
 		return err
 	}
+	err = db.AutoMigrate(recipemodel.Identifier{})
+	if err != nil {
+		return err
+	}
 	return nil
 }
