@@ -16,3 +16,14 @@ func (s *sqlStore) CreateRecipe(ctx context.Context, data *recipemodel.RecipeCre
 
 	return nil
 }
+
+func (s *sqlStore) CreateIdentifierList(ctx context.Context, data []recipemodel.Identifier) error {
+	db := s.db
+
+	err := db.Create(data).Error
+	if err != nil {
+		return common.ErrDB(err)
+	}
+
+	return nil
+}

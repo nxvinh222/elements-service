@@ -1,19 +1,19 @@
-package ginelement
+package ginrecipe
 
 import (
 	"elements-service/common"
 	"elements-service/component"
-	"elements-service/modules/element/elementbiz"
-	"elements-service/modules/element/elementmodel"
-	"elements-service/modules/element/elementstorage"
+	"elements-service/modules/recipe/recipebiz"
+	"elements-service/modules/recipe/recipemodel"
+	"elements-service/modules/recipe/recipestorage"
 	"github.com/gin-gonic/gin"
 	"net/http"
 	"strconv"
 )
 
-func UpdateElement(ctx component.AppContext) gin.HandlerFunc {
+func UpdateRecipe(ctx component.AppContext) gin.HandlerFunc {
 	return func(c *gin.Context) {
-		var data elementmodel.ElementUpdate
+		var data recipemodel.RecipeUpdate
 
 		id, err := strconv.Atoi(c.Param("id"))
 
@@ -34,10 +34,10 @@ func UpdateElement(ctx component.AppContext) gin.HandlerFunc {
 			return
 		}
 
-		store := elementstorage.NewSQLStore(ctx.GetMainDBConnection())
-		biz := elementbiz.NewUpdateElementBiz(store)
+		store := recipestorage.NewSQLStore(ctx.GetMainDBConnection())
+		biz := recipebiz.NewUpdateRecipeBiz(store)
 
-		err = biz.UpdateElement(c, id, &data)
+		err = biz.UpdateRecipe(c, id, &data)
 		if err != nil {
 			c.JSON(http.StatusUnauthorized, gin.H{
 				"error": err.Error(),

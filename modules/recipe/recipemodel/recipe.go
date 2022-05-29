@@ -14,7 +14,7 @@ type Recipe struct {
 	StartUrl string                 `json:"start_url"`
 	Note string                     `json:"note"`
 	IdentifierAttr string `json:"identifier_attr"`
-	IdentifierMap []Identifier `json:"identifier_map"`
+	IdentifierList []Identifier `json:"identifier_list"`
 	Elements []elementmodel.Element `json:"elements" gorm:"constraint:OnUpdate:CASCADE,OnDelete:CASCADE;"`
 }
 
@@ -30,7 +30,20 @@ type RecipeCreate struct {
 	Note string `json:"note"`
 }
 
+type RecipeUpdate struct {
+	common.SQLModel
+	UserId int `json:"user_id"`
+	Name string `json:"name"`
+	StartUrl string `json:"start_url"`
+	Note string `json:"note"`
+	IdentifierAttr string `json:"identifier_attr"`
+}
+
 func (RecipeCreate) TableName() string {
+	return Recipe{}.TableName()
+}
+
+func (RecipeUpdate) TableName() string {
 	return Recipe{}.TableName()
 }
 

@@ -16,3 +16,17 @@ func (s *sqlStore) DeleteRecipe(ctx context.Context, id int) error {
 
 	return nil
 }
+
+func (s *sqlStore) DeleteIdentifierListByCondition(
+	ctx context.Context,
+	conditions map[string]interface{},
+) error {
+	db := s.db
+
+	err := db.Where(conditions).Delete(recipemodel.Identifier{}).Error
+	if err != nil {
+		return common.ErrDB(err)
+	}
+
+	return nil
+}

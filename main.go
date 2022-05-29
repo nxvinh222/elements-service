@@ -93,12 +93,11 @@ func runService(appCtx component.AppContext) error {
 		recipes.GET("", ginrecipe.ListRecipe(appCtx))
 		recipes.POST("", ginrecipe.CreateRecipe(appCtx))
 		recipes.GET("/:id", ginrecipe.GetRecipe(appCtx))
+		recipes.PUT("/:id", ginrecipe.UpdateRecipe(appCtx))
 		recipes.POST("/:id/elements", ginelement.CreateElement(appCtx))
 		recipes.GET("/:id/elements", ginelement.ListElement(appCtx))
-		//recipes.GET("", ginrestaurant.ListRestaurant(appCtx))
-		//recipes.GET("/:id", ginrestaurant.GetRestaurant(appCtx))
-		//recipes.PATCH("/:id", ginrestaurant.UpdateRestaurant(appCtx))
 		recipes.DELETE("/:id", ginrecipe.DeleteRecipe(appCtx))
+		recipes.POST("/:id/identifiers", ginrecipe.CreateIdentifierList(appCtx))
 		//
 		//recipes.GET("/:id/liked-users", ginrestaurantlike.ListUser(appCtx))
 	}

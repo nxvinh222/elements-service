@@ -27,7 +27,7 @@ func NewUpdateElementBiz(store UpdateElementStore) *updateElementBiz {
 	return &updateElementBiz{store: store}
 }
 
-func (biz *updateElementBiz) UpdateRestaurant(ctx context.Context, id int, data *elementmodel.ElementUpdate) error{
+func (biz *updateElementBiz) UpdateElement(ctx context.Context, id int, data *elementmodel.ElementUpdate) error{
 	oldData, err := biz.store.FindElementByCondition(ctx, map[string]interface{}{"id": id})
 
 	if err != nil {
