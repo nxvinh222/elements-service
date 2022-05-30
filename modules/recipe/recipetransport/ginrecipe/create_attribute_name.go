@@ -11,9 +11,9 @@ import (
 	"strconv"
 )
 
-func CreateIdentifierList(ctx component.AppContext) gin.HandlerFunc {
+func CreateAttributeName(ctx component.AppContext) gin.HandlerFunc {
 	return func(c *gin.Context) {
-		var data recipemodel.IdentifierListCreate
+		var data recipemodel.AttributeNameCreate
 
 		id, err := strconv.Atoi(c.Param("id"))
 
@@ -27,9 +27,9 @@ func CreateIdentifierList(ctx component.AppContext) gin.HandlerFunc {
 		}
 
 		store := recipestorage.NewSQLStore(ctx.GetMainDBConnection())
-		biz := recipebiz.NewCreateIdentifierListBiz(store)
+		biz := recipebiz.NewCreateAttributeNameBiz(store)
 
-		err = biz.CreateIdentifierList(c, id, &data)
+		err = biz.CreateAttributeName(c, id, &data)
 		if err != nil {
 			panic(err)
 		}

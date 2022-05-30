@@ -98,6 +98,7 @@ func runService(appCtx component.AppContext) error {
 		recipes.GET("/:id/elements", ginelement.ListElement(appCtx))
 		recipes.DELETE("/:id", ginrecipe.DeleteRecipe(appCtx))
 		recipes.POST("/:id/identifiers", ginrecipe.CreateIdentifierList(appCtx))
+		recipes.POST("/:id/attribute-names", ginrecipe.CreateAttributeName(appCtx))
 		//
 		//recipes.GET("/:id/liked-users", ginrestaurantlike.ListUser(appCtx))
 	}
@@ -145,6 +146,10 @@ func migrateDB(db *gorm.DB) error {
 		return err
 	}
 	err = db.AutoMigrate(recipemodel.Identifier{})
+	if err != nil {
+		return err
+	}
+	err = db.AutoMigrate(recipemodel.AttributeName{})
 	if err != nil {
 		return err
 	}

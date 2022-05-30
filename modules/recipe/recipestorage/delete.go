@@ -30,3 +30,17 @@ func (s *sqlStore) DeleteIdentifierListByCondition(
 
 	return nil
 }
+
+func (s *sqlStore) DeleteAttributeName(
+	ctx context.Context,
+	conditions map[string]interface{},
+) error {
+	db := s.db
+
+	err := db.Where(conditions).Delete(recipemodel.Identifier{}).Error
+	if err != nil {
+		return common.ErrDB(err)
+	}
+
+	return nil
+}

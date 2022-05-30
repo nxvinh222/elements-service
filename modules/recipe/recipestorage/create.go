@@ -27,3 +27,14 @@ func (s *sqlStore) CreateIdentifierList(ctx context.Context, data []recipemodel.
 
 	return nil
 }
+
+func (s *sqlStore) CreateAttributeName(ctx context.Context, data *recipemodel.AttributeNameCreate) error {
+	db := s.db
+
+	err := db.Create(data).Error
+	if err != nil {
+		return common.ErrDB(err)
+	}
+
+	return nil
+}
