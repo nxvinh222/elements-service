@@ -3,6 +3,7 @@ package recipestorage
 import (
 	"context"
 	"elements-service/common"
+	"elements-service/modules/attributename/attributenamemodel"
 	"elements-service/modules/recipe/recipemodel"
 )
 
@@ -28,7 +29,7 @@ func (s *sqlStore) CreateIdentifierList(ctx context.Context, data []recipemodel.
 	return nil
 }
 
-func (s *sqlStore) CreateAttributeName(ctx context.Context, data *recipemodel.AttributeNameCreate) error {
+func (s *sqlStore) CreateAttributeName(ctx context.Context, data *attributenamemodel.AttributeNameCreate) error {
 	db := s.db
 
 	err := db.Create(data).Error

@@ -2,6 +2,7 @@ package recipemodel
 
 import (
 	"elements-service/common"
+	"elements-service/modules/attributename/attributenamemodel"
 	"elements-service/modules/element/elementmodel"
 )
 
@@ -9,14 +10,14 @@ const EntityName = "Recipe"
 
 type Recipe struct {
 	common.SQLModel
-	UserId int                      `json:"user_id" gorm:"default:0;"`
-	Name string                     `json:"name"`
-	StartUrl string                 `json:"start_url"`
-	Note string                     `json:"note"`
-	IdentifierAttr string `json:"identifier_attr"`
-	IdentifierList []Identifier `json:"identifier_list" gorm:"constraint:OnUpdate:CASCADE,OnDelete:CASCADE;"`
-	AttributeNameList []AttributeName `json:"attribute_name_list" gorm:"constraint:OnUpdate:CASCADE,OnDelete:CASCADE;"`
-	Elements []elementmodel.Element `json:"elements" gorm:"constraint:OnUpdate:CASCADE,OnDelete:CASCADE;"`
+	UserId int                                           `json:"user_id" gorm:"default:0;"`
+	Name string                                          `json:"name"`
+	StartUrl string                                      `json:"start_url"`
+	Note string                                          `json:"note"`
+	IdentifierAttr string                                `json:"identifier_attr"`
+	IdentifierList []Identifier                          `json:"identifier_list" gorm:"constraint:OnUpdate:CASCADE,OnDelete:CASCADE;"`
+	AttributeNameList []attributenamemodel.AttributeName `json:"attribute_name_list" gorm:"constraint:OnUpdate:CASCADE,OnDelete:CASCADE;"`
+	Elements []elementmodel.Element                      `json:"elements" gorm:"constraint:OnUpdate:CASCADE,OnDelete:CASCADE;"`
 }
 
 func (Recipe) TableName() string {

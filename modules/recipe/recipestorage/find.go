@@ -3,6 +3,7 @@ package recipestorage
 import (
 	"context"
 	"elements-service/common"
+	"elements-service/modules/attributename/attributenamemodel"
 	"elements-service/modules/recipe/recipemodel"
 	"gorm.io/gorm"
 )
@@ -35,8 +36,8 @@ func (s *sqlStore) FindAttributeNameByCondition(
 	ctx context.Context,
 	conditions map[string]interface{},
 	moreKeys ...string,
-) (*recipemodel.AttributeName, error) {
-	var result recipemodel.AttributeName
+) (*attributenamemodel.AttributeName, error) {
+	var result attributenamemodel.AttributeName
 
 	db := s.db
 

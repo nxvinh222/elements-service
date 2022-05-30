@@ -1,6 +1,9 @@
 package elementmodel
 
-import "elements-service/common"
+import (
+	"elements-service/common"
+	"elements-service/modules/attributename/attributenamemodel"
+)
 
 const EntityName = "Element"
 
@@ -13,6 +16,7 @@ type Element struct {
 	Selector     string    `json:"selector"`
 	Type         string    `json:"type"`
 	Multiple     bool      `json:"multiple"`
+	AttributeNameList attributenamemodel.AttributeName `json:"attribute_name_list" gorm:"constraint:OnUpdate:CASCADE,OnDelete:CASCADE;"`
 	ChildElement []Element `json:"child_elements" gorm:"preload:true;constraint:OnUpdate:CASCADE,OnDelete:CASCADE;"`
 }
 

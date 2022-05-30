@@ -2,6 +2,8 @@ package elementbiz
 
 import (
 	"context"
+	"elements-service/common"
+	"elements-service/modules/attributename/attributenamemodel"
 	"elements-service/modules/element/elementmodel"
 	"fmt"
 	"strings"
@@ -14,6 +16,11 @@ type CreateElementStore interface {
 		conditions map[string]interface{},
 		moreKeys ...string,
 	) (*elementmodel.Element, error)
+	FindAttributeNameByCondition(
+		ctx context.Context,
+		conditions map[string]interface{},
+		moreKeys ...string,
+	) (*attributenamemodel.AttributeName, error)
 }
 
 type createElementBiz struct {
@@ -38,6 +45,15 @@ func (biz *createElementBiz) CreateElement(ctx context.Context, recipeId int, da
 
 		data.Elements[i].RecipeId = recipeId
 		data.Elements[i].Type = strings.ToLower(data.Elements[i].Type)
+
+		// Check if attribute name exists
+		attrName, err := biz.store.FindAttributeNameByCondition(ctx, map[string]interface{}{"recipe_id": recipeId, "name": data.Elements[i].Name})
+		if err != nil && err != common.RecordNotFound {
+			return err
+		}
+		if attrName != nil {
+			return common.ErrEntityExisted(attributenamemodel.AttributeNameEntityName, err)
+		}
 	}
 
 	err := biz.store.CreateElementList(ctx, data)

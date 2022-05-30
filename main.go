@@ -5,6 +5,7 @@ import (
 	"elements-service/component"
 	"elements-service/component/uploadprovider"
 	"elements-service/middleware"
+	"elements-service/modules/attributename/attributenamemodel"
 	"elements-service/modules/element/elementmodel"
 	"elements-service/modules/element/elementtransport/ginelement"
 	"elements-service/modules/recipe/recipemodel"
@@ -149,7 +150,7 @@ func migrateDB(db *gorm.DB) error {
 	if err != nil {
 		return err
 	}
-	err = db.AutoMigrate(recipemodel.AttributeName{})
+	err = db.AutoMigrate(attributenamemodel.AttributeName{})
 	if err != nil {
 		return err
 	}

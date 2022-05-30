@@ -3,8 +3,8 @@ package ginrecipe
 import (
 	"elements-service/common"
 	"elements-service/component"
+	"elements-service/modules/attributename/attributenamemodel"
 	"elements-service/modules/recipe/recipebiz"
-	"elements-service/modules/recipe/recipemodel"
 	"elements-service/modules/recipe/recipestorage"
 	"github.com/gin-gonic/gin"
 	"net/http"
@@ -13,7 +13,7 @@ import (
 
 func CreateAttributeName(ctx component.AppContext) gin.HandlerFunc {
 	return func(c *gin.Context) {
-		var data recipemodel.AttributeNameCreate
+		var data attributenamemodel.AttributeNameCreate
 
 		id, err := strconv.Atoi(c.Param("id"))
 
