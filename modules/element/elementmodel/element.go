@@ -39,12 +39,14 @@ type ElementCreate struct {
 }
 
 type ElementUpdate struct {
+	common.SQLModel
 	RecipeId     int    `json:"-"`
 	ElementId    *int   `json:"element_id" gorm:"column:element_id"`
 	Name         string `json:"name"`
 	Selector     string `json:"selector"`
 	Type         string `json:"type"`
 	Multiple     bool   `json:"multiple"`
+	OldName string `gorm:"-"`
 }
 
 func (ElementCreate) TableName() string {

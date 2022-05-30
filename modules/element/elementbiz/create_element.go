@@ -11,11 +11,13 @@ import (
 
 type CreateElementStore interface {
 	CreateElementList(ctx context.Context, data *elementmodel.ElementCreateList) error
+
 	FindElementByCondition(
 		ctx context.Context,
 		conditions map[string]interface{},
 		moreKeys ...string,
 	) (*elementmodel.Element, error)
+
 	FindAttributeNameByCondition(
 		ctx context.Context,
 		conditions map[string]interface{},
