@@ -26,7 +26,7 @@ func NewGetRecipeBiz(store GetRecipeStore) *getRecipeBiz{
 
 func (biz *getRecipeBiz) GetRecipe(ctx context.Context, id int, filter recipemodel.Filter) (*recipemodel.Recipe, error) {
 	if filter.Simple == 1 {
-		result, err := biz.store.FindRecipeByCondition(ctx, map[string]interface{}{"id": id}, "IdentifierList")
+		result, err := biz.store.FindRecipeByCondition(ctx, map[string]interface{}{"id": id})
 		if err != nil {
 			if err == common.RecordNotFound {
 				return nil, common.ErrCannotGetEntity(restaurantmodel.EntityName, err)
@@ -42,7 +42,7 @@ func (biz *getRecipeBiz) GetRecipe(ctx context.Context, id int, filter recipemod
 		return result, err
 	}
 
-	result, err := biz.store.FindRecipeByCondition(ctx, map[string]interface{}{"id": id}, "Elements.ChildElement.ChildElement.ChildElement.ChildElement")
+	result, err := biz.store.FindRecipeByCondition(ctx, map[string]interface{}{"id": id}, "Elements.ChildElement.ChildElement.ChildElement.ChildElement", "IdentifierList")
 
 	if err != nil {
 		if err == common.RecordNotFound {
