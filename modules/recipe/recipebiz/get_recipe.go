@@ -39,6 +39,11 @@ func (biz *getRecipeBiz) GetRecipe(ctx context.Context, id int, filter recipemod
 			return nil, common.ErrEntityDeleted(restaurantmodel.EntityName, nil)
 		}
 
+		result.AttributeNameArr = make([]string, len(result.AttributeNameList))
+		for i := range result.AttributeNameList{
+			result.AttributeNameArr[i] = result.AttributeNameList[i].Name
+		}
+
 		return result, err
 	}
 

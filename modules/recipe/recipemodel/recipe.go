@@ -16,7 +16,8 @@ type Recipe struct {
 	Note string                                          `json:"note"`
 	IdentifierAttr string                                `json:"identifier_attr"`
 	IdentifierList []Identifier                          `json:"identifier_list" gorm:"constraint:OnUpdate:CASCADE,OnDelete:CASCADE;"`
-	AttributeNameList []attributenamemodel.AttributeName `json:"attribute_name_list" gorm:"constraint:OnUpdate:CASCADE,OnDelete:CASCADE;"`
+	AttributeNameList []attributenamemodel.AttributeName `json:"-" gorm:"constraint:OnUpdate:CASCADE,OnDelete:CASCADE;"`
+	AttributeNameArr []string `json:"attribute_name_list" gorm:"-"`
 	Elements []elementmodel.Element                      `json:"elements" gorm:"constraint:OnUpdate:CASCADE,OnDelete:CASCADE;"`
 }
 
