@@ -27,6 +27,10 @@ func (biz *createIdentifierListBiz) CreateIdentifierList(ctx context.Context, id
 		return err
 	}
 
+	if len(data.IdentifierList) == 0 {
+		return nil
+	}
+
 	for i := range data.IdentifierList {
 		data.IdentifierList[i].RecipeId = id
 	}
