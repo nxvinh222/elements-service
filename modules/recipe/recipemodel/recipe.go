@@ -10,15 +10,16 @@ const EntityName = "Recipe"
 
 type Recipe struct {
 	common.SQLModel
-	UserId int                                           `json:"user_id" gorm:"default:0;"`
-	Name string                                          `json:"name"`
-	StartUrl string                                      `json:"start_url"`
-	Note string                                          `json:"note"`
-	IdentifierAttr string                                `json:"identifier_attr"`
-	IdentifierList []Identifier                          `json:"identifier_list" gorm:"constraint:OnUpdate:CASCADE,OnDelete:CASCADE;"`
+	UserId            int                                `json:"user_id" gorm:"default:0;"`
+	Name              string                             `json:"name"`
+	StartUrl          string                             `json:"start_url"`
+	Note              string                             `json:"note"`
+	IdentifierAttr    string                             `json:"identifier_attr"`
+	IdentifierList    []Identifier                       `json:"-" gorm:"constraint:OnUpdate:CASCADE,OnDelete:CASCADE;"`
+	IdentifierArr     []string                           `json:"identifier_list" gorm:"-"`
 	AttributeNameList []attributenamemodel.AttributeName `json:"-" gorm:"constraint:OnUpdate:CASCADE,OnDelete:CASCADE;"`
-	AttributeNameArr []string `json:"attribute_name_list" gorm:"-"`
-	Elements []elementmodel.Element                      `json:"elements" gorm:"constraint:OnUpdate:CASCADE,OnDelete:CASCADE;"`
+	AttributeNameArr  []string                           `json:"attribute_name_list" gorm:"-"`
+	Elements          []elementmodel.Element             `json:"elements" gorm:"constraint:OnUpdate:CASCADE,OnDelete:CASCADE;"`
 }
 
 func (Recipe) TableName() string {
@@ -27,20 +28,20 @@ func (Recipe) TableName() string {
 
 type RecipeCreate struct {
 	common.SQLModel
-	UserId int `json:"user_id"`
-	Name string `json:"name"`
+	UserId   int    `json:"user_id"`
+	Name     string `json:"name"`
 	StartUrl string `json:"start_url"`
-	Note string `json:"note"`
+	Note     string `json:"note"`
 }
 
 type RecipeUpdate struct {
 	common.SQLModel
-	UserId int `json:"user_id"`
-	Name string `json:"name"`
-	StartUrl string `json:"start_url"`
-	Note string `json:"note"`
-	IdentifierAttr string `json:"identifier_attr,omitempty"`
-	ResetIdentifier bool `gorm:"-"`
+	UserId          int    `json:"user_id"`
+	Name            string `json:"name"`
+	StartUrl        string `json:"start_url"`
+	Note            string `json:"note"`
+	IdentifierAttr  string `json:"identifier_attr,omitempty"`
+	ResetIdentifier bool   `gorm:"-"`
 }
 
 func (RecipeCreate) TableName() string {

@@ -61,6 +61,13 @@ func (biz *getRecipeBiz) GetRecipe(ctx context.Context, id int, filter recipemod
 		return nil, common.ErrEntityDeleted(restaurantmodel.EntityName, nil)
 	}
 
+	// Convert Identifier List into array of string
+	result.IdentifierArr = make([]string, len(result.IdentifierList))
+	for i := range result.IdentifierList{
+		result.IdentifierArr[i] = result.IdentifierList[i].Value
+	}
+
+	// ??
 	for i := len(result.Elements) - 1; i >= 0; i--{
 		if result.Elements[i].ElementId != nil {
 			result.Elements = RemoveIndex(result.Elements, i)
