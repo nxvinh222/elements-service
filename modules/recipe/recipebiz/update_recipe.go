@@ -38,6 +38,12 @@ func (biz *updateRecipeBiz) UpdateRecipe(ctx context.Context, id int, data *reci
 		return fmt.Errorf("data deleted")
 	}
 
+	if oldData.IdentifierAttr != data.IdentifierAttr && data.IdentifierAttr != "" {
+		data.ResetIdentifier = true
+	} else {
+		data.ResetIdentifier = false
+	}
+	data.Id = oldData.Id
 	err = biz.store.UpdateData(ctx, id, data)
 	if err != nil {
 		return err

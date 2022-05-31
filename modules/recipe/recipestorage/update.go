@@ -10,12 +10,26 @@ func (s *sqlStore) UpdateData(ctx context.Context,
 	id int,
 	data *recipemodel.RecipeUpdate,
 ) error {
-	db := *s.db
+	tx := *s.db.Begin()
 
-	err := db.Where("id = ?", id).Updates(data).Error
+	// Refresh identifier
+	if data.ResetIdentifier == true {
+		err := tx.
+			Where("recipe_id = ?", data.Id).
+			Delete(recipemodel.Identifier{}).Error
+		if err != nil {
+			tx.Rollback()
+			return common.ErrDB(err)
+		}
+	}
+
+// Update data
+	err := tx.Where("id = ?", id).Updates(data).Error
 	if err != nil {
+		tx.Rollback()
 		return common.ErrDB(err)
 	}
 
+	tx.Commit()
 	return nil
 }

@@ -39,7 +39,8 @@ type RecipeUpdate struct {
 	Name string `json:"name"`
 	StartUrl string `json:"start_url"`
 	Note string `json:"note"`
-	IdentifierAttr string `json:"identifier_attr"`
+	IdentifierAttr string `json:"identifier_attr,omitempty"`
+	ResetIdentifier bool `gorm:"-"`
 }
 
 func (RecipeCreate) TableName() string {
