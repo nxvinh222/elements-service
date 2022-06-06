@@ -20,6 +20,7 @@ type Recipe struct {
 	AttributeNameList []attributenamemodel.AttributeName `json:"-" gorm:"constraint:OnUpdate:CASCADE,OnDelete:CASCADE;"`
 	AttributeNameArr  []string                           `json:"attribute_name_list" gorm:"-"`
 	Elements          []elementmodel.Element             `json:"elements" gorm:"constraint:OnUpdate:CASCADE,OnDelete:CASCADE;"`
+	ResultFile string `json:"result_file"`
 }
 
 func (Recipe) TableName() string {
