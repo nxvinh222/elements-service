@@ -26,7 +26,7 @@ func NewGetRecipeBiz(store GetRecipeStore) *getRecipeBiz{
 
 func (biz *getRecipeBiz) GetRecipe(ctx context.Context, id int, filter recipemodel.Filter) (*recipemodel.Recipe, error) {
 	if filter.Simple == 1 {
-		result, err := biz.store.FindRecipeByCondition(ctx, map[string]interface{}{"id": id}, "AttributeNameList")
+		result, err := biz.store.FindRecipeByCondition(ctx, map[string]interface{}{"id": id}, "Elements.ChildElement")
 		if err != nil {
 			if err == common.RecordNotFound {
 				return nil, common.ErrCannotGetEntity(restaurantmodel.EntityName, err)
@@ -39,9 +39,18 @@ func (biz *getRecipeBiz) GetRecipe(ctx context.Context, id int, filter recipemod
 			return nil, common.ErrEntityDeleted(restaurantmodel.EntityName, nil)
 		}
 
-		result.AttributeNameArr = make([]string, len(result.AttributeNameList))
-		for i := range result.AttributeNameList{
-			result.AttributeNameArr[i] = result.AttributeNameList[i].Name
+		// Find root element
+		var rootElement elementmodel.Element
+		for _, v := range result.Elements {
+			if v.ElementId == nil {
+				rootElement = v
+			}
+		}
+		// Allow only text type element as identifier choice
+		for i := range rootElement.ChildElement{
+			if rootElement.ChildElement[i].Type == "text" {
+				result.AttributeNameArr = append(result.AttributeNameArr, rootElement.ChildElement[i].Name)
+			}
 		}
 
 		return result, err
