@@ -21,6 +21,7 @@ type Recipe struct {
 	AttributeNameArr  []string                           `json:"attribute_name_list" gorm:"-"`
 	Elements          []elementmodel.Element             `json:"elements" gorm:"constraint:OnUpdate:CASCADE,OnDelete:CASCADE;"`
 	ResultFile string `json:"result_file"`
+	Status int `json:"status" gorm:"default:1"`
 }
 
 func (Recipe) TableName() string {
@@ -43,6 +44,8 @@ type RecipeUpdate struct {
 	Note            string `json:"note"`
 	IdentifierAttr  string `json:"identifier_attr,omitempty"`
 	ResetIdentifier bool   `gorm:"-"`
+	ResultFile string `json:"result_file"`
+	Status int `json:"status"`
 }
 
 func (RecipeCreate) TableName() string {

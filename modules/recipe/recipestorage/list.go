@@ -16,7 +16,7 @@ func (s *sqlStore) ListDataByCondition(ctx context.Context,
 
 	db := s.db
 
-	db = db.Table(recipemodel.Recipe{}.TableName()).Where(conditions).Where("status in (1)")
+	db = db.Table(recipemodel.Recipe{}.TableName()).Where(conditions).Where("status <> 0")
 
 	err := db.Count(&paging.Total).Error
 	if err != nil {
