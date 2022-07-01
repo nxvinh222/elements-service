@@ -26,7 +26,7 @@ func NewGetRecipeBiz(store GetRecipeStore) *getRecipeBiz{
 
 func (biz *getRecipeBiz) GetRecipe(ctx context.Context, id int, filter recipemodel.Filter) (*recipemodel.Recipe, error) {
 	if filter.Simple == 1 {
-		result, err := biz.store.FindRecipeByCondition(ctx, map[string]interface{}{"id": id}, "Elements.ChildElement")
+		result, err := biz.store.FindRecipeByCondition(ctx, map[string]interface{}{"id": id}, "Elements.ChildElement", "AttributeNameList")
 		if err != nil {
 			if err == common.RecordNotFound {
 				return nil, common.ErrCannotGetEntity(restaurantmodel.EntityName, err)
@@ -41,16 +41,29 @@ func (biz *getRecipeBiz) GetRecipe(ctx context.Context, id int, filter recipemod
 
 		// Find root element
 		var rootElement elementmodel.Element
+		var excludeElementList []string
 		for _, v := range result.Elements {
 			if v.ElementId == nil {
 				rootElement = v
+				excludeElementList = append(excludeElementList, rootElement.Name)
 			}
 		}
-		// Allow only text type element as identifier choice
+		// Exclude Object and Link element
 		for i := range rootElement.ChildElement{
-			if rootElement.ChildElement[i].Type == "text" {
-				result.AttributeNameArr = append(result.AttributeNameArr, rootElement.ChildElement[i].Name)
+			if rootElement.ChildElement[i].Type == "object" || rootElement.ChildElement[i].Type == "link" {
+				excludeElementList = append(excludeElementList, rootElement.ChildElement[i].Name)
 			}
+		}
+
+		// Return all attribute name list
+		addAttrLoop: for i := range result.AttributeNameList {
+			// Remove object and link attribute
+			for _, v := range excludeElementList {
+				if result.AttributeNameList[i].Name == v{
+					continue addAttrLoop
+				}
+			}
+			result.AttributeNameArr = append(result.AttributeNameArr, result.AttributeNameList[i].Name)
 		}
 
 		return result, err
