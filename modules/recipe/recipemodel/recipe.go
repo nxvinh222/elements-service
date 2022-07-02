@@ -21,6 +21,7 @@ type Recipe struct {
 	AttributeNameArr  []string                           `json:"attribute_name_list" gorm:"-"`
 	Elements          []elementmodel.Element             `json:"elements" gorm:"constraint:OnUpdate:CASCADE,OnDelete:CASCADE;"`
 	ResultFile string `json:"result_file"`
+	CrawlTime float64 `json:"crawl_time"`
 	Status int `json:"status" gorm:"default:1"`
 }
 
@@ -45,6 +46,7 @@ type RecipeUpdate struct {
 	IdentifierAttr  string `json:"identifier_attr,omitempty"`
 	ResetIdentifier bool   `gorm:"-"`
 	ResultFile string `json:"result_file"`
+	CrawlTime float64 `json:"crawl_time"`
 	Status int `json:"status"`
 }
 
