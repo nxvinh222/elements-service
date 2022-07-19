@@ -91,7 +91,7 @@ func runService(appCtx component.AppContext) error {
 
 	recipes := v1.Group("/recipes")
 	{
-		recipes.GET("", ginrecipe.ListRecipe(appCtx))
+		recipes.GET("", middleware.RequiredAuth(appCtx), ginrecipe.ListRecipe(appCtx))
 		recipes.POST("", ginrecipe.CreateRecipe(appCtx))
 		recipes.GET("/:id", ginrecipe.GetRecipe(appCtx))
 		recipes.PUT("/:id", ginrecipe.UpdateRecipe(appCtx))

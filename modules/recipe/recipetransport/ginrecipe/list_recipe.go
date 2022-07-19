@@ -34,11 +34,13 @@ func ListRecipe(appCtx component.AppContext) gin.HandlerFunc {
 			return
 		}
 
+		user := c.MustGet(common.CurrentUser).(common.Requester)
+
 		paging.Fulfill()
 
 		store := recipestorage.NewSQLStore(appCtx.GetMainDBConnection())
 		biz := recipebiz.NewListRecipeBiz(store)
-		result, err := biz.ListRecipe(c.Request.Context(), &filter, &paging)
+		result, err := biz.ListRecipe(c.Request.Context(), user.GetUserId(), &filter, &paging)
 		if err != nil {
 			c.JSON(http.StatusUnauthorized, gin.H{
 				"error": err.Error(),

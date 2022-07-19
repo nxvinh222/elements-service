@@ -25,10 +25,11 @@ func NewListRecipeBiz(store ListRecipeStore) *listRecipeBiz {
 
 func (biz *listRecipeBiz) ListRecipe(
 	ctx context.Context,
+	userId int,
 	filter *recipemodel.Filter,
 	paging *common.Paging,
 ) ([]recipemodel.Recipe, error) {
-	result, err := biz.store.ListDataByCondition(ctx, nil, filter, paging)
+	result, err := biz.store.ListDataByCondition(ctx, map[string]interface{}{"user_id": userId}, filter, paging)
 
 	if err != nil {
 		return nil, common.ErrCannotListEntity(recipemodel.EntityName, err)
