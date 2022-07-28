@@ -18,6 +18,8 @@ func CreateRecipe(ctx component.AppContext) gin.HandlerFunc {
 		if err != nil {
 			panic(common.ErrInvalidRequest(err))
 		}
+		user := context.MustGet(common.CurrentUser).(common.Requester)
+		data.UserId = user.GetUserId()
 
 		store := recipestorage.NewSQLStore(ctx.GetMainDBConnection())
 		biz := recipebiz.NewCreateRecipeBiz(store)

@@ -21,7 +21,6 @@ func UpdateRecipe(ctx component.AppContext) gin.HandlerFunc {
 			c.JSON(http.StatusUnauthorized, gin.H{
 				"error": "invalid id",
 			})
-
 			return
 		}
 
@@ -30,7 +29,6 @@ func UpdateRecipe(ctx component.AppContext) gin.HandlerFunc {
 			c.JSON(http.StatusUnauthorized, gin.H{
 				"error": err.Error(),
 			})
-
 			return
 		}
 
